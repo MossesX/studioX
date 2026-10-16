@@ -345,8 +345,12 @@ const carriedPackages = new Set();
  * `@axs/defaults/default-state` reach a peeled app — but not re-copied, so the
  * walk never overwrites a file the copy step already placed.
  */
+/** Studio-relative files the generated app replaces with its own (see the
+ *  `write("src/boot.ts", …)` below). */
+const GENERATED_BY_PEEL = new Set(["src/boot.ts"]);
+
 function copyServerClosure(label, entries, alreadyCopied = []) {
-  const EXTENSIONS = ["", ".ts", ".tsx", "/index.ts", "/index.tsx"];
+  const EXTENSIONS = ["", ".ts", ".tsx", ".mjs", ".js", ".json", "/index.ts", "/index.tsx"];
   const queue = [...entries];
   const seen = new Set();
   const copied = [];
@@ -354,6 +358,13 @@ function copyServerClosure(label, entries, alreadyCopied = []) {
     const rel = queue.shift().replace(/\\/g, "/");
     if (seen.has(rel)) continue;
     seen.add(rel);
+    // Files this script GENERATES for the app are neither copied nor walked.
+    // `LoginScreen.tsx` (accounts) imports `../../boot`, which in the peeled
+    // app is the generated boot below — but in the STUDIO tree it is the SDK
+    // boot, whose `studio.subsystem` imports every module and plugin panel.
+    // Following it dragged the whole studio into a `--with accounts` peel and
+    // failed on the first panel with a non-.ts import (2026-10-16).
+    if (GENERATED_BY_PEEL.has(rel)) continue;
     const from = path.join(STUDIO, rel);
     if (!fs.existsSync(from)) {
       fail(`${label}: the closure reaches ${rel}, which does not exist — the contract is stale`);
@@ -520,6 +531,25 @@ for (const { id, dir } of [
   const routes = moduleApiRoutes(id);
   moduleRoutes.set(id, routes);
   copiedServerFiles.push(...copyServerClosure(`${id} routes`, routes, alreadyCopiedDirs));
+}
+
+// ---------------------------------------------------------------------------
+// 6a-bis-2. THE DEFAULT IDENTITY — brand and glyph packs, so the chrome draws.
+//
+// `Glyph` renders a glyph no active pack answers as a dashed red box, on
+// purpose ("a missing drawing is a failing gate rather than an empty box").
+// A peeled app registered no packs at all, so its generated banner's brand
+// mark and the module's own glyph were exactly that box — measured on the
+// first expenses peel (2026-10-16). Studio's answer is `seedDefaultIdentity()`
+// (`src/packs/default-identity.ts`), called in BOTH module graphs; the peel
+// carries that file's closure and the generated Chrome calls it in the client
+// graph, which is the one that renders glyphs. Skipped, not failed, when the
+// SDK tree has no such file — a bare core still boots without a pack.
+// ---------------------------------------------------------------------------
+const IDENTITY_ENTRY = "src/packs/default-identity.ts";
+const identityCarried = fs.existsSync(path.join(STUDIO, IDENTITY_ENTRY));
+if (identityCarried) {
+  copiedServerFiles.push(...copyServerClosure("default identity", [IDENTITY_ENTRY], alreadyCopiedDirs));
 }
 
 // ---------------------------------------------------------------------------
@@ -1071,8 +1101,32 @@ const commandsImports = commandsModules
       `import * as ${id.replace(/-/g, "_")}Commands from "./modules/${id}/${id}.commands";`
   )
   .join("\n");
+/**
+ * A commands file that opens with `"use client"` (accounts does: its commands
+ * open dialogs) is a client-reference proxy in the SERVER graph, and calling
+ * through it throws — "Attempted to call registerAccountsCommands() from the
+ * server". Studio never hit this because its boot is client-only (BootedHost);
+ * the generated boot also runs on the server (the health route, the companion
+ * page). So the call, AND the `registerModuleMenus` that would refuse a menu
+ * naming the unregistered commands, are browser-only for such a module. The
+ * server registry still gets the module itself, which is all the health
+ * route and the pages need from it there. Measured on the first
+ * `peel expenses --with accounts` (2026-10-16).
+ */
+const CLIENT_DIRECTIVE = /^\s*(?:\/\/[^\n]*\n|\/\*[\s\S]*?\*\/\s*)*["']use client["']/;
+const clientOnlyCommands = new Set(
+  commandsModules
+    .filter(({ id, dir }) =>
+      CLIENT_DIRECTIVE.test(fs.readFileSync(path.join(dir, `${id}.commands.ts`), "utf8"))
+    )
+    .map(({ id }) => id)
+);
+const browserOnly = (id) => (clientOnlyCommands.has(id) ? 'if (typeof window !== "undefined") ' : "");
 const commandsCalls = commandsModules
-  .map(({ id }) => `    registerCommandsOf(${id.replace(/-/g, "_")}Commands, "${id}");`)
+  .map(
+    ({ id }) =>
+      `    ${browserOnly(id)}registerCommandsOf(${id.replace(/-/g, "_")}Commands, "${id}");`
+  )
   .join("\n");
 
 // --- companions, in the generated boot ---------------------------------------
@@ -1097,7 +1151,7 @@ const companionRegisterLines = companions
       `    // primary so its points, menus and settings are in place before\n` +
       `    // anything of the primary's reaches for them.\n` +
       `    registry.registerModule(${c.moduleExport});\n` +
-      `    registerModuleMenus(${c.moduleExport});\n` +
+      `    ${browserOnly(c.id)}registerModuleMenus(${c.moduleExport});\n` +
       `    if (typeof window !== "undefined") registerModuleSettings(${c.moduleExport});`
   )
   .join("\n");
@@ -1226,7 +1280,7 @@ ${contributionLines}
     // The module's declared context menus, through the same seam Studio uses.
     // Registers the default ctx commands first (the map's gate needs them),
     // then declares the module's groups/areas and contributes its rows.
-    registerModuleMenus(${MODULE_EXPORT});
+    ${browserOnly(moduleId)}registerModuleMenus(${MODULE_EXPORT});
     // The module's declared settings (core 0.0.20), same seam as menus — a
     // decl with no settings registers nothing; with one, the peeled app gets
     // the gear, the universal row and the shell dialog for free. CLIENT ONLY:
@@ -1345,9 +1399,11 @@ import type { ReactNode } from "react";
 import { AppShell } from "@axf/core";
 
 import { boot } from "./boot";
+${identityCarried ? 'import { seedDefaultIdentity } from "./packs/default-identity";' : ""}
 ${mountImports}
 
 // Module scope: runs once per bundle evaluation, before the first render.
+${identityCarried ? "seedDefaultIdentity();" : "// (no default identity packs in the SDK tree — glyphs render as placeholders)"}
 void boot();
 
 export default function Chrome({ children }: { children: ReactNode }) {

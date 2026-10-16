@@ -189,6 +189,14 @@ export function NavShell({ children }: { children: ReactNode }) {
   const placement = placementOf(theme.values);
   const vertical = placement === "left" || placement === "right";
   const [collapsed, toggleCollapsed] = useNavCollapsed();
+  /*
+   * No nav menu registered for `app.nav` — a peeled app whose module declares
+   * no nav — means no rail at all, toggle included. A ≡ button that opens an
+   * empty column is not "no navigation", it is a navigation menu with nothing
+   * in it, and the peel's "NavShell renders no menu" promise covers the toggle
+   * too. Studio always has a nav, so this branch is the peel's alone.
+   */
+  const hasNav = useNavMenus().all.some((asset) => asset.surface === "app.nav");
 
   return (
     <Box
@@ -203,6 +211,7 @@ export function NavShell({ children }: { children: ReactNode }) {
           then the menu itself unless collapsed. Collapsed, what is left is a
           slim rail holding only the toggle, on the nav's own surface colour so
           the edge of the chrome stays where it was. */}
+      {hasNav && (
       <Box
         data-axf-nav-rail
         sx={{
@@ -233,6 +242,7 @@ export function NavShell({ children }: { children: ReactNode }) {
           </Boundary>
         )}
       </Box>
+      )}
       {/* The ONE scroll container. A tall page scrolls here (never the
           document — the shell is a fixed viewport column); a viewport app
           opts out by taking flex:1 + minHeight:0 and scrolling its own
