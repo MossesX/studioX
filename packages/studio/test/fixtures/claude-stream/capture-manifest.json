@@ -1,0 +1,75 @@
+{
+  "//": [
+    "Provenance for the captured `claude --output-format stream-json` transcripts",
+    "beside this file. Data, not documentation — `.claude/rules/amberx-bound-builds.md`",
+    "§3 bans GizmoX-shaped docs for AmberX-bound work, and a fixture with no record of",
+    "how it was produced cannot be re-captured when the CLI changes.",
+    "",
+    "These are REAL runs against the owner's subscription (CLI mode, no API key), taken",
+    "for axf-claude.bmpx P0: 'DESIGN AGAINST A CAPTURED TRANSCRIPT, NOT AN IMAGINED ONE.'",
+    "`src/server/claudeEvents.ts` is written against them and `test/claude-events.test.ts`",
+    "replays them through it."
+  ],
+  "cliVersion": "2.1.229",
+  "capturedOn": "2026-08-12",
+  "platform": "win32",
+  "commonFlags": ["-p", "--output-format", "stream-json", "--verbose", "--include-partial-messages"],
+  "captures": [
+    {
+      "file": "a-tools-subagent-thinking.ndjson",
+      "model": "claude-sonnet-5",
+      "extraFlags": ["--effort", "high", "--permission-mode", "acceptEdits"],
+      "intent": "The broad one — every event kind a healthy agentic turn produces.",
+      "proves": [
+        "text deltas and whole assistant messages (SEVEN of them in one turn — the tool loop that makes `text = whole` a truncating bug)",
+        "thinking: content_block_start[thinking], thinking_delta, signature_delta, system/thinking_tokens",
+        "tool_use for 7 distinct tools with complete inputs (Write, Edit, Read, Bash, Agent, TaskCreate, TaskUpdate)",
+        "tool_result in both observed shapes: a bare string, and an array of content blocks",
+        "file edits as real Write/Edit tool inputs",
+        "todos — this environment exposes TaskCreate/TaskUpdate rather than TodoWrite; recorded as observed, not normalised into a todo concept that does not exist here",
+        "subagents: system/task_started, task_progress, task_updated, task_notification, and subagent traffic threaded by a non-null parent_tool_use_id",
+        "usage on message_delta and on the final result, including the cache-token spread (67 input vs 464,153 cache-read)",
+        "rate_limit_event, system/init, system/status, hook_started, hook_response",
+        "a successful terminal result (subtype 'success') carrying total_cost_usd"
+      ]
+    },
+    {
+      "file": "b-disallowed-tool.ndjson",
+      "model": "claude-haiku-4-5",
+      "extraFlags": ["--permission-mode", "default", "--disallowed-tools", "Bash"],
+      "intent": "Went looking for a permission request. Found that there isn't one.",
+      "proves": [
+        "--disallowed-tools REMOVES the tool from the session rather than denying its use: the model never asks, and permission_denials stays empty. Disallowed is not denied.",
+        "a long unbroken thinking run (29 thinking_delta events) — the fold-this-away case for a UI"
+      ]
+    },
+    {
+      "file": "c-error-bad-resume.ndjson",
+      "model": "claude-haiku-4-5",
+      "extraFlags": ["--resume", "00000000-0000-0000-0000-000000000000"],
+      "intent": "The error path. One line long, and the most load-bearing fixture here.",
+      "proves": [
+        "a failed turn is subtype 'error_during_execution' with is_error true",
+        "THERE IS NO `result` FIELD — the reason is only in `errors: [...]`. GizmoX's broker reads `r.result` for its error message and would have reported an empty string.",
+        "the process exits 1 and repeats the reason on stderr"
+      ]
+    },
+    {
+      "file": "e-denied-tool-error-result.ndjson",
+      "model": "claude-haiku-4-5",
+      "extraFlags": ["--permission-mode", "default", "--settings", "{\"permissions\":{\"deny\":[\"Write\"]}}"],
+      "intent": "The refusal channel that actually exists in headless mode.",
+      "proves": [
+        "a permissions.deny rule surfaces as an ordinary tool_result with is_error true and a <tool_use_error> payload — that is what a UI renders red",
+        "permission_denials[] on the result stays empty for deny rules, so it is a post-hoc ledger and not the live channel"
+      ]
+    }
+  ],
+  "notCaptured": [
+    {
+      "kind": "interactive permission request",
+      "finding": "Headless `-p` mode has no prompt-shaped permission event. Four captures went looking (b and e are the two kept). A UI built expecting one would wait for something this transport never sends; the renderable failure is the is_error tool_result in capture e.",
+      "wouldNeed": "--input-format stream-json with a permission-prompt tool, i.e. the bidirectional control channel — out of scope for P0."
+    }
+  ]
+}

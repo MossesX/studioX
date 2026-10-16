@@ -1,2 +1,0 @@
-# studioX
-amberx-studio project

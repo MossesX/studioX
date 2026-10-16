@@ -1,0 +1,24 @@
+# Mirrors .dockerignore: build output and credentials never enter the repo.
+**/node_modules/
+**/.next/
+**/*.tsbuildinfo
+peeled/
+bare-core/
+pre-build/
+
+# Persisted volume data — seeded with deploy/seed-data.sh, never committed.
+packages/studio/data/
+
+# Credentials. .env.example is the documented template; everything else key-shaped stays out.
+**/.env
+**/.env.*
+!**/.env.example
+**/.auth-secret
+
+# Working exhaust
+.history/
+.firecrawl/
+.claude/
+logs/
+**/logs/
+build/archive/

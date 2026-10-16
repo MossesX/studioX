@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "axf://schemas/manifest/logo_kit",
+  "title": "AmberX logo kit manifest",
+  "description": "A framework-authored bundle of logos (animated or static). Written only by packages/studio/scripts/gen-logo-kit.mjs; never by hand. Ported from GizmoX 2026-08-15.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "version", "type", "description", "author", "authored_by", "signature", "logos"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^lk\\d{3}$" },
+    "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "type": { "const": "logo_kit" },
+    "description": { "type": "string", "minLength": 1, "maxLength": 400 },
+    "author": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "authored_by": { "const": "framework" },
+    "signature": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "logos": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 40,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "slug", "name", "kind", "motion"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^lk\\d{3}-[a-z][a-z0-9-]*$" },
+          "slug": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "name": { "type": "string", "minLength": 1, "maxLength": 60 },
+          "kind": { "enum": ["animated", "static"] },
+          "motion": { "type": "string", "minLength": 1 },
+          "note": { "type": "string", "maxLength": 200 }
+        }
+      }
+    }
+  }
+}

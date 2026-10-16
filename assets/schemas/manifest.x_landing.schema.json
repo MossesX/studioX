@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "axf://schemas/manifest/x_landing",
+  "title": "AmberX x_landing manifest",
+  "description": "A landing page defined by references to other assets. Written only by packages/studio/scripts/gen-x-landing.mjs; never by hand. Ported from GizmoX 2026-08-15.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "version",
+    "type",
+    "description",
+    "author",
+    "authored_by",
+    "signature",
+    "route",
+    "role",
+    "assets",
+    "cardOpacity"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^xl\\d{3}$" },
+    "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "type": { "const": "x_landing" },
+    "description": { "type": "string", "minLength": 1, "maxLength": 400 },
+    "author": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "authored_by": { "const": "framework" },
+    "signature": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "route": { "type": "string", "pattern": "^/" },
+    "role": {
+      "enum": ["login", "page"],
+      "description": "`login` marks this landing as the studio's front door — the session gate redirects signed-out visitors to its route. At most one landing may claim it; defineXLanding throws on a second."
+    },
+    "assets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["logo"],
+      "properties": {
+        "logo": { "type": "string", "pattern": "^lk\\d{3}-[a-z][a-z0-9-]*$" }
+      }
+    },
+    "cardOpacity": { "type": "number", "minimum": 0, "maximum": 1 }
+  }
+}
