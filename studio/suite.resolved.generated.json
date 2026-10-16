@@ -1,0 +1,490 @@
+{
+  "format": "axf-suite/1",
+  "suite": "axs-studio",
+  "title": "AmberX AI Studio",
+  "resolvedFrom": "packages/studio",
+  "framework": {
+    "package": "@axf/core",
+    "version": "0.0.25",
+    "packageVersion": "0.0.1"
+  },
+  "studio": {
+    "package": "@axs/studio",
+    "version": "0.0.1"
+  },
+  "moduleCap": 12,
+  "rule": "a plugin is carried when it exports a contribution whose point starts with \"<moduleId>.\" of a member module's declared point",
+  "entries": [
+    {
+      "kind": "module",
+      "id": "accounts",
+      "title": "Accounts",
+      "route": "/accounts",
+      "glyph": "icon-account",
+      "nav": null,
+      "ctxAreas": [
+        "accounts.surface",
+        "accounts.suite",
+        "accounts.user-row",
+        "accounts.file-row",
+        "accounts.policy-row",
+        "accounts.card",
+        "accounts.token-row"
+      ],
+      "points": [
+        "accounts.admin-tab"
+      ],
+      "carries": [
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "amberart",
+      "title": "AmberArt",
+      "route": "/amberart",
+      "glyph": "icon-brush",
+      "nav": null,
+      "ctxAreas": [
+        "amberart.canvas",
+        "amberart.layer",
+        "amberart.surface"
+      ],
+      "points": [
+        "amberart.tool"
+      ],
+      "carries": [
+        "amberart-artgen",
+        "amberart-drawing-lab",
+        "amberart-stickers",
+        "amberart-tessellate",
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "amberxvid",
+      "title": "AmberX Vid",
+      "route": "/amberxvid",
+      "glyph": "icon-play",
+      "nav": "amberxvid-nav",
+      "ctxAreas": [
+        "amberxvid.member",
+        "amberxvid.message",
+        "amberxvid.post",
+        "amberxvid.photo",
+        "amberxvid.stream",
+        "amberxvid.room",
+        "amberxvid.history",
+        "amberxvid.recording",
+        "amberxvid.surface"
+      ],
+      "points": [
+        "amberxvid.credits-meter",
+        "amberxvid.profile-rail",
+        "amberxvid.wall-composer-action",
+        "amberxvid.messenger-action",
+        "amberxvid.stream-tool",
+        "amberxvid.room-tile-badge",
+        "amberxvid.settings-section",
+        "amberxvid.admin-tool"
+      ],
+      "carries": [
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "asset-browser",
+      "title": "Asset Browser",
+      "route": "/asset-browser",
+      "glyph": "icon-folder",
+      "nav": null,
+      "ctxAreas": [
+        "asset-browser.asset",
+        "asset-browser.kind",
+        "asset-browser.surface"
+      ],
+      "points": [],
+      "carries": [
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "buildmgr",
+      "title": "Build Manager",
+      "route": "/buildmgr",
+      "glyph": "icon-play",
+      "nav": null,
+      "ctxAreas": [
+        "buildmgr.step"
+      ],
+      "points": [],
+      "carries": [
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "claude-workspace",
+      "title": "Claude",
+      "route": "/claude",
+      "glyph": "icon-chat",
+      "nav": null,
+      "ctxAreas": [
+        "claude-workspace.surface",
+        "claude-workspace.transcript",
+        "claude-workspace.message",
+        "claude-workspace.tool",
+        "claude-workspace.composer",
+        "claude-workspace.library",
+        "claude-workspace.conversation",
+        "claude-workspace.projects",
+        "claude-workspace.project"
+      ],
+      "points": [
+        "claude-workspace.panel",
+        "claude-workspace.composer-action"
+      ],
+      "carries": [
+        "agent-forge",
+        "diff-browser",
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "dashboard",
+      "title": "Dashboard",
+      "route": "/",
+      "glyph": "icon-grid",
+      "nav": null,
+      "ctxAreas": [
+        "dashboard.grid"
+      ],
+      "points": [],
+      "carries": [
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "demo",
+      "title": "Core Inspector",
+      "route": "/demo",
+      "glyph": "icon-eye",
+      "nav": "demo-nav",
+      "ctxAreas": [
+        "demo.inspector"
+      ],
+      "points": [
+        "demo.badge",
+        "demo.note"
+      ],
+      "carries": [
+        "demo-badge",
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "expenses",
+      "title": "Expense Tracker",
+      "route": "/expenses",
+      "glyph": "icon-book",
+      "nav": null,
+      "ctxAreas": [
+        "expenses.expense",
+        "expenses.node",
+        "expenses.surface",
+        "expenses.tab",
+        "expenses.tabstrip"
+      ],
+      "points": [],
+      "carries": [
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "firecrawl",
+      "title": "Firecrawl",
+      "route": "/firecrawl",
+      "glyph": "icon-globe",
+      "nav": null,
+      "ctxAreas": [
+        "firecrawl.workflow",
+        "firecrawl.step",
+        "firecrawl.dataset",
+        "firecrawl.surface"
+      ],
+      "points": [],
+      "carries": [
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "forge",
+      "title": "Forge",
+      "route": "/forge",
+      "glyph": "icon-bolt",
+      "nav": null,
+      "ctxAreas": [
+        "forge.surface"
+      ],
+      "points": [],
+      "carries": [
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "module",
+      "id": "taskman",
+      "title": "Task Manager",
+      "route": "/taskman",
+      "glyph": "icon-layers",
+      "nav": null,
+      "ctxAreas": [
+        "taskman.item",
+        "taskman.list",
+        "taskman.group",
+        "taskman.surface"
+      ],
+      "points": [
+        "taskman.item-action"
+      ],
+      "carries": [
+        "module-assistant"
+      ]
+    },
+    {
+      "kind": "plugin",
+      "id": "agent-forge",
+      "dir": "src/plugins/agent-forge",
+      "carriedBy": [
+        "claude-workspace"
+      ],
+      "contributions": [
+        {
+          "name": "AGENT_FORGE_BRIEF_ACTION",
+          "point": "claude-workspace.composer-action"
+        },
+        {
+          "name": "AGENT_FORGE_PANEL",
+          "point": "claude-workspace.panel"
+        }
+      ]
+    },
+    {
+      "kind": "plugin",
+      "id": "amberart-artgen",
+      "dir": "src/plugins/amberart-artgen",
+      "carriedBy": [
+        "amberart"
+      ],
+      "contributions": [
+        {
+          "name": "ARTGEN_CONTRIBUTION",
+          "point": "amberart.tool"
+        }
+      ]
+    },
+    {
+      "kind": "plugin",
+      "id": "amberart-drawing-lab",
+      "dir": "src/plugins/amberart-drawing-lab",
+      "carriedBy": [
+        "amberart"
+      ],
+      "contributions": [
+        {
+          "name": "DRAWING_LAB_CONTRIBUTION",
+          "point": "amberart.tool"
+        }
+      ]
+    },
+    {
+      "kind": "plugin",
+      "id": "amberart-stickers",
+      "dir": "src/plugins/amberart-stickers",
+      "carriedBy": [
+        "amberart"
+      ],
+      "contributions": [
+        {
+          "name": "STICKERS_CONTRIBUTION",
+          "point": "amberart.tool"
+        }
+      ]
+    },
+    {
+      "kind": "plugin",
+      "id": "amberart-tessellate",
+      "dir": "src/plugins/amberart-tessellate",
+      "carriedBy": [
+        "amberart"
+      ],
+      "contributions": [
+        {
+          "name": "TESSELLATE_CONTRIBUTION",
+          "point": "amberart.tool"
+        }
+      ]
+    },
+    {
+      "kind": "plugin",
+      "id": "demo-badge",
+      "dir": "src/plugins/demo-badge",
+      "carriedBy": [
+        "demo"
+      ],
+      "contributions": [
+        {
+          "name": "DEMO_BADGE_CONTRIBUTION",
+          "point": "demo.badge"
+        },
+        {
+          "name": "DEMO_NOTE_CONTRIBUTION",
+          "point": "demo.note"
+        }
+      ]
+    },
+    {
+      "kind": "plugin",
+      "id": "diff-browser",
+      "dir": "src/plugins/diff-browser",
+      "carriedBy": [
+        "claude-workspace"
+      ],
+      "contributions": [
+        {
+          "name": "DIFF_BROWSER_PANEL",
+          "point": "claude-workspace.panel"
+        },
+        {
+          "name": "DIFF_BROWSER_QUOTE_ACTION",
+          "point": "claude-workspace.composer-action"
+        }
+      ]
+    },
+    {
+      "kind": "plugin",
+      "id": "module-assistant",
+      "dir": "src/plugins/module-assistant",
+      "carriedBy": [
+        "accounts",
+        "amberart",
+        "amberxvid",
+        "asset-browser",
+        "buildmgr",
+        "claude-workspace",
+        "dashboard",
+        "demo",
+        "expenses",
+        "firecrawl",
+        "forge",
+        "taskman"
+      ],
+      "contributions": [
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        },
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        },
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        },
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        },
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        },
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        },
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        },
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        },
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        },
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        },
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        },
+        {
+          "name": "ASSISTANT_CTX_ITEM",
+          "point": "ctx.item"
+        },
+        {
+          "name": "ASSISTANT_WINDOW",
+          "point": "studio.assistant"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "module-assistant",
+  "kind": "plugin",
+  "name": "Module Assistant",
+  "version": "0.1.0",
+  "layer": "sdk",
+  "target": "universal",
+  "entry": "plugin.ts",
+  "summary": "A floating AI chat window every module ships with: it knows the module on screen and assists in using it. One built-in agent (Amber), plus the agent each module builds for itself; more arrive as data files or installed add-on assets. Providers: Claude, OpenAI, Grok, Ollama.",
+  "host": {
+    "points": ["studio.assistant"],
+    "commands": "assistant.commands#registerAssistantCommands",
+    "mount": "studio.assistant",
+    "toolbar": [
+      {
+        "id": "assistant",
+        "glyph": "icon-chat",
+        "title": "Module assistant",
+        "command": "assistant.toggle"
+      }
+    ],
+    "routes": [
+      "app/api/assistant/chat",
+      "app/api/assistant/agents",
+      "app/api/assistant/config",
+      "app/api/assistant/models",
+      "app/api/assistant/claude-auth"
+    ],
+    "server": [
+      "src/server/axfKv.ts",
+      "src/server/claudeBroker.ts",
+      "src/server/claudeEvents.ts",
+      "src/modules/buildmgr/models.ts"
+    ],
+    "dependencies": ["@anthropic-ai/sdk"]
+  }
+}

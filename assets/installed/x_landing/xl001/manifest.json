@@ -1,0 +1,16 @@
+{
+  "id": "xl001",
+  "name": "Login landing",
+  "version": "0.1.0",
+  "type": "x_landing",
+  "description": "The AmberX login landing — brand banner, a transparent sign-in card, and the pack's animated orbit logo in the background.",
+  "author": "AmberX",
+  "authored_by": "framework",
+  "signature": "sha256:d118ba15746863f982b9d3adeb80221e14734d16a2bdca46730f28920c0d7e58",
+  "route": "/login-landing",
+  "role": "login",
+  "assets": {
+    "logo": "lk002-orbit"
+  },
+  "cardOpacity": 0.35
+}

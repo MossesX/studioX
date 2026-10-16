@@ -1,0 +1,22 @@
+{
+  "_header": "Seed for the dashboard module, v2 (MUI rebuild, 2026-08-11). Only the card ARRANGEMENT and the welcome card's copy live here — every other card reads a live source (the module registry, the pack registry, the theme store, the system clock, the studio nav asset). Adding seed rows for a surface that has a live source is how the pre-strip dashboard ended up describing a different app.",
+  "authoredAt": "2026-08-11",
+  "cards": [
+    { "id": "welcome", "enabled": true, "order": 0, "size": "md", "col": 1, "row": 1, "w": 2, "h": 2 },
+    { "id": "quick-launch", "enabled": true, "order": 1, "size": "md", "col": 3, "row": 1, "w": 2, "h": 2 },
+    { "id": "modules", "enabled": true, "order": 2, "size": "md", "col": 1, "row": 3, "w": 2, "h": 2 },
+    { "id": "theme", "enabled": true, "order": 3, "size": "md", "col": 3, "row": 3, "w": 2, "h": 2 },
+    { "id": "packs", "enabled": true, "order": 4, "size": "md", "col": 1, "row": 5, "w": 2, "h": 2 },
+    { "id": "clock", "enabled": true, "order": 5, "size": "md", "col": 3, "row": 5, "w": 2, "h": 2 }
+  ],
+  "welcome": {
+    "titleLead": "AmberX ",
+    "titleAccent": "AI Studio",
+    "tagline": "The SDK workbench on the @axf/core framework — modules, plugins, packs and themes, authored and inspected in one place.",
+    "chips": [
+      { "id": "mui", "label": "MUI everywhere", "tone": "accent" },
+      { "id": "packs", "label": "Hot-swap brand packs", "tone": "ok" },
+      { "id": "themes", "label": "Rolled themes", "tone": "violet" }
+    ]
+  }
+}

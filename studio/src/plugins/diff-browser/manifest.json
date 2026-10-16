@@ -1,0 +1,10 @@
+{
+  "id": "diff-browser",
+  "kind": "plugin",
+  "name": "Difference Browser",
+  "version": "0.2.0",
+  "layer": "sdk",
+  "target": "module:claude-workspace",
+  "entry": "plugin.ts",
+  "summary": "A multi-column difference browser over .history/: every historical instance of a tracked file is its own column, oldest left to newest right, with per-column collapse, resize, a changes-only filter, a comparison-base toggle the first filter reveals, and find with F3 and a global mode. Absorbed by axf-claude P5 as contributions to claude-workspace.panel (a summary pane) and claude-workspace.composer-action (quote the newest change); the full grid lives at /diff, where an eight-column layout fits."
+}

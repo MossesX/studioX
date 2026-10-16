@@ -1,0 +1,83 @@
+{
+  "id": "lk002",
+  "name": "Amber Motion",
+  "version": "0.1.0",
+  "type": "logo_kit",
+  "description": "Ten complete animated logos from the branding pack — orbit, orbit-hex, pulse, spin, float, shimmer, sweep, draw-on, morph and neon flicker. Each carries its own SMIL; nothing is animated in CSS.",
+  "author": "AmberX",
+  "authored_by": "framework",
+  "signature": "sha256:bb8358c2e9e71256f10a23f241397402ce60711d2a39b937044212f0deb4eb5b",
+  "logos": [
+    {
+      "id": "lk002-orbit",
+      "slug": "orbit",
+      "name": "Orbit",
+      "kind": "animated",
+      "motion": "pack-orbit",
+      "note": "Blades around a diamond; a satellite tracks a circular path."
+    },
+    {
+      "id": "lk002-orbit-hex",
+      "slug": "orbit-hex",
+      "name": "Orbit hex",
+      "kind": "animated",
+      "motion": "pack-orbit-hex"
+    },
+    {
+      "id": "lk002-pulse",
+      "slug": "pulse",
+      "name": "Pulse",
+      "kind": "animated",
+      "motion": "pack-pulse"
+    },
+    {
+      "id": "lk002-spin",
+      "slug": "spin",
+      "name": "Spin",
+      "kind": "animated",
+      "motion": "pack-spin"
+    },
+    {
+      "id": "lk002-float",
+      "slug": "float",
+      "name": "Float",
+      "kind": "animated",
+      "motion": "pack-float"
+    },
+    {
+      "id": "lk002-shimmer",
+      "slug": "shimmer",
+      "name": "Shimmer",
+      "kind": "animated",
+      "motion": "pack-shimmer"
+    },
+    {
+      "id": "lk002-sweep",
+      "slug": "sweep",
+      "name": "Sweep",
+      "kind": "animated",
+      "motion": "pack-sweep"
+    },
+    {
+      "id": "lk002-draw",
+      "slug": "draw",
+      "name": "Draw-on",
+      "kind": "animated",
+      "motion": "pack-draw"
+    },
+    {
+      "id": "lk002-morph",
+      "slug": "morph",
+      "name": "Morph",
+      "kind": "animated",
+      "motion": "pack-morph"
+    },
+    {
+      "id": "lk002-flicker",
+      "slug": "flicker",
+      "name": "Neon flicker",
+      "kind": "animated",
+      "motion": "pack-flicker"
+    }
+  ]
+}

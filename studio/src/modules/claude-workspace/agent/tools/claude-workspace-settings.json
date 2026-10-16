@@ -1,0 +1,37 @@
+{
+  "name": "claude-workspace-settings",
+  "description": "Read or write Claude's settings (namespace claude-workspace-settings).",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "read",
+          "write"
+        ],
+        "description": "read every row, or write one."
+      },
+      "key": {
+        "type": "string",
+        "description": "showThinking — Show extended thinking (switch); autoExpandTools — Expand tool calls by default (switch); sendOnEnter — Enter sends the message (switch)",
+        "enum": [
+          "showThinking",
+          "autoExpandTools",
+          "sendOnEnter"
+        ]
+      },
+      "value": {
+        "description": "The new value when writing; matches the row's declared kind.",
+        "type": [
+          "boolean",
+          "number",
+          "string"
+        ]
+      }
+    },
+    "required": [
+      "action"
+    ]
+  }
+}

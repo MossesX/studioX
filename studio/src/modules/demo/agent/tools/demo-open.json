@@ -1,0 +1,9 @@
+{
+  "name": "demo-open",
+  "description": "Open Core Inspector (/demo). Use to put the module on screen before walking the user through it.",
+  "input_schema": {
+    "type": "object",
+    "properties": {},
+    "required": []
+  }
+}

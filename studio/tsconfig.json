@@ -1,0 +1,56 @@
+{
+  "//": [
+    "Studio's OWN tsconfig. It declares `@axf/*` (it consumes core) and `@axs/*`",
+    "(its own tree) — and, exactly as deliberately, NO `@/*`. GizmoX's src/ is",
+    "unreachable from here by resolution, not by discipline.",
+    "",
+    "`@axf/core` is deliberately NOT in `paths`. It resolves as a real workspace",
+    "package through node_modules and core's own `exports` map, so the boundary",
+    "is tested by actual resolution rather than by an alias that could quietly",
+    "diverge from it. A deep import like `@axf/core/registry` therefore fails",
+    "here for the same reason it fails in the bundler: the export does not exist."
+  ],
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "incremental": true,
+    "jsx": "react-jsx",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@axs/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "proxy.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

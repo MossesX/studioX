@@ -1,0 +1,10 @@
+{
+  "id": "amberart-stickers",
+  "kind": "plugin",
+  "name": "Stickers",
+  "version": "0.1.0",
+  "layer": "sdk",
+  "target": "module:amberart",
+  "entry": "plugin.ts",
+  "summary": "A sticker set drawn as pure SVG geometry — three cats, the GIZMO wordmark and the arched lockup — with primary/accent/outline colours, a scale, a rotation and an interactive placement pad that composes a canvas-sized document so the sticker lands exactly where it was put."
+}

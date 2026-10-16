@@ -1,0 +1,39 @@
+{
+  "name": "taskman-settings",
+  "description": "Read or write Task Manager's settings (namespace taskman-settings).",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "read",
+          "write"
+        ],
+        "description": "read every row, or write one."
+      },
+      "key": {
+        "type": "string",
+        "description": "dense — Dense rows (switch); crossOutDone — Cross out completed items (switch); confirmDelete — Confirm destructive deletes (switch); autoBuildLists — Auto-add build project lists (switch); autoModuleLists — Auto-add module lists (switch)",
+        "enum": [
+          "dense",
+          "crossOutDone",
+          "confirmDelete",
+          "autoBuildLists",
+          "autoModuleLists"
+        ]
+      },
+      "value": {
+        "description": "The new value when writing; matches the row's declared kind.",
+        "type": [
+          "boolean",
+          "number",
+          "string"
+        ]
+      }
+    },
+    "required": [
+      "action"
+    ]
+  }
+}

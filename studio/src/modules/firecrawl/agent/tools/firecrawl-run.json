@@ -1,0 +1,39 @@
+{
+  "name": "firecrawl-run",
+  "description": "Run one of Firecrawl's declared operations. Destructive rows are marked in the description — confirm with the user before running one.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "command": {
+        "type": "string",
+        "description": "firecrawl.workflow.run — Run workflow; firecrawl.workflow.duplicate — Duplicate; firecrawl.workflow.export — Export as JSON; firecrawl.workflow.delete — Delete workflow (destructive); firecrawl.step.move-up — Move up; firecrawl.step.move-down — Move down; firecrawl.step.duplicate — Duplicate step; firecrawl.step.delete — Delete step (destructive); firecrawl.dataset.view — Open in Data view; firecrawl.dataset.export-json — Export as JSON; firecrawl.dataset.export-md — Export as Markdown; firecrawl.dataset.export-csv — Export as CSV; firecrawl.dataset.copy — Copy contents; firecrawl.dataset.delete — Delete dataset (destructive); firecrawl.new-workflow — New workflow; firecrawl.example — Add example workflow; firecrawl.refresh — Refresh from disk",
+        "enum": [
+          "firecrawl.workflow.run",
+          "firecrawl.workflow.duplicate",
+          "firecrawl.workflow.export",
+          "firecrawl.workflow.delete",
+          "firecrawl.step.move-up",
+          "firecrawl.step.move-down",
+          "firecrawl.step.duplicate",
+          "firecrawl.step.delete",
+          "firecrawl.dataset.view",
+          "firecrawl.dataset.export-json",
+          "firecrawl.dataset.export-md",
+          "firecrawl.dataset.export-csv",
+          "firecrawl.dataset.copy",
+          "firecrawl.dataset.delete",
+          "firecrawl.new-workflow",
+          "firecrawl.example",
+          "firecrawl.refresh"
+        ]
+      },
+      "data": {
+        "type": "object",
+        "description": "Context the row would have carried — the item, list or selection the command acts on."
+      }
+    },
+    "required": [
+      "command"
+    ]
+  }
+}

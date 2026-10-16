@@ -1,0 +1,41 @@
+{
+  "name": "taskman-run",
+  "description": "Run one of Task Manager's declared operations. Destructive rows are marked in the description — confirm with the user before running one.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "command": {
+        "type": "string",
+        "description": "taskman.item.add-child — Add sub-item; taskman.item.toggle-done — Toggle done; taskman.item.duplicate — Duplicate; taskman.item.delete — Delete item (destructive); taskman.list.new-item — New item in list; taskman.list.float — Open in floating window; taskman.list.rename — Rename list…; taskman.list.pin — Pin / unpin list; taskman.list.delete — Delete list (destructive); taskman.group.new-list — New list in this group; taskman.group.toggle — Collapse / expand group; taskman.group.rename — Rename group…; taskman.group.delete — Delete group; taskman.new-list — New list; taskman.group.add — Add group…; taskman.lists.refresh — Refresh lists; taskman.archive.open — Archived lists…; taskman.delete-all.toggle-managed — …including the build project lists; taskman.delete-all — Delete all lists (destructive)",
+        "enum": [
+          "taskman.item.add-child",
+          "taskman.item.toggle-done",
+          "taskman.item.duplicate",
+          "taskman.item.delete",
+          "taskman.list.new-item",
+          "taskman.list.float",
+          "taskman.list.rename",
+          "taskman.list.pin",
+          "taskman.list.delete",
+          "taskman.group.new-list",
+          "taskman.group.toggle",
+          "taskman.group.rename",
+          "taskman.group.delete",
+          "taskman.new-list",
+          "taskman.group.add",
+          "taskman.lists.refresh",
+          "taskman.archive.open",
+          "taskman.delete-all.toggle-managed",
+          "taskman.delete-all"
+        ]
+      },
+      "data": {
+        "type": "object",
+        "description": "Context the row would have carried — the item, list or selection the command acts on."
+      }
+    },
+    "required": [
+      "command"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "id": "amberart-artgen",
+  "kind": "plugin",
+  "name": "ArtGen",
+  "version": "0.1.0",
+  "layer": "sdk",
+  "target": "module:amberart",
+  "entry": "plugin.ts",
+  "summary": "Generative art for AmberArt: the prompt's FNV-1a hash drives a mulberry32 PRNG into a directive the renderer draws. Seeded engine ONLY \u2014 the two model-backed engines were dropped because AmberX has no claude subsystem."
+}

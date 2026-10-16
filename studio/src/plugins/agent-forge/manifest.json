@@ -1,0 +1,10 @@
+{
+  "id": "agent-forge",
+  "kind": "plugin",
+  "name": "Agent Forge",
+  "version": "0.2.0",
+  "layer": "sdk",
+  "target": "module:claude-workspace",
+  "entry": "plugin.ts",
+  "summary": "Personas and skills, read from the .claude/ directories the CLI itself loads for a conversation's working directory. Three contributions across two hosts: claude-workspace.panel (the roster, and binding a persona to a conversation), claude-workspace.composer-action (paste the compiled brief into one message), and claude.context-provider (the bound persona, folded into the system contract on the first turn) — the last declared in plugin.server.ts because it reads the filesystem and plugin.ts is evaluated in the browser bundle."
+}

@@ -1,0 +1,10 @@
+{
+  "id": "tab-bar",
+  "kind": "plugin",
+  "name": "Tab bar",
+  "version": "0.1.0",
+  "layer": "sdk",
+  "target": "core",
+  "entry": "plugin.ts",
+  "summary": "A band across the very top of the app that reveals the surfaces you have open, one tab each — opened by arriving at a surface rather than by any button. Imported from GizmoX's top-strip plugin; settings, right-click menu, plugin-manager roster entry and SDK settings section all included."
+}

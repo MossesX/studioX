@@ -1,0 +1,49 @@
+{
+  "name": "claude-workspace-run",
+  "description": "Run one of Claude's declared operations. Destructive rows are marked in the description — confirm with the user before running one.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "command": {
+        "type": "string",
+        "description": "claude-workspace.new — New conversation; claude-workspace.stop — Stop the running turn (destructive); claude-workspace.transcript.copy — Copy the whole transcript; claude-workspace.transcript.expand-tools — Expand every tool call; claude-workspace.transcript.collapse-tools — Collapse every tool call; claude-workspace.transcript.jump-latest — Jump to the latest message; claude-workspace.message.copy — Copy this message; claude-workspace.message.copy-code — Copy its code blocks; claude-workspace.message.quote — Quote it into the composer; claude-workspace.tool.copy-input — Copy the call's input; claude-workspace.tool.copy-output — Copy the call's output; claude-workspace.tool.copy-patch — Copy the edit as a patch; claude-workspace.composer.clear — Clear the draft; claude-workspace.composer.history-prev — Previous message from history; claude-workspace.new — New conversation; claude-workspace.library.refresh — Reload the library; claude-workspace.library.clear-search — Clear the search; claude-workspace.projects.manage — Manage projects…; claude-workspace.project.clear-filter — Show every conversation; claude-workspace.projects.manage — New project; claude-workspace.projects.refresh — Reload the project list; claude-workspace.project.new-conversation — Start a conversation here; claude-workspace.project.filter — Show only this project's conversations; claude-workspace.project.copy-cwd — Copy the working directory; claude-workspace.conversation.open — Open; claude-workspace.conversation.pin — Pin / unpin; claude-workspace.conversation.rename — Rename…; claude-workspace.conversation.copy-id — Copy the conversation id; claude-workspace.conversation.delete — Delete conversation (destructive)",
+        "enum": [
+          "claude-workspace.new",
+          "claude-workspace.stop",
+          "claude-workspace.transcript.copy",
+          "claude-workspace.transcript.expand-tools",
+          "claude-workspace.transcript.collapse-tools",
+          "claude-workspace.transcript.jump-latest",
+          "claude-workspace.message.copy",
+          "claude-workspace.message.copy-code",
+          "claude-workspace.message.quote",
+          "claude-workspace.tool.copy-input",
+          "claude-workspace.tool.copy-output",
+          "claude-workspace.tool.copy-patch",
+          "claude-workspace.composer.clear",
+          "claude-workspace.composer.history-prev",
+          "claude-workspace.library.refresh",
+          "claude-workspace.library.clear-search",
+          "claude-workspace.projects.manage",
+          "claude-workspace.project.clear-filter",
+          "claude-workspace.projects.refresh",
+          "claude-workspace.project.new-conversation",
+          "claude-workspace.project.filter",
+          "claude-workspace.project.copy-cwd",
+          "claude-workspace.conversation.open",
+          "claude-workspace.conversation.pin",
+          "claude-workspace.conversation.rename",
+          "claude-workspace.conversation.copy-id",
+          "claude-workspace.conversation.delete"
+        ]
+      },
+      "data": {
+        "type": "object",
+        "description": "Context the row would have carried — the item, list or selection the command acts on."
+      }
+    },
+    "required": [
+      "command"
+    ]
+  }
+}

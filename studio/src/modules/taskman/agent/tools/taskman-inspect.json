@@ -1,0 +1,17 @@
+{
+  "name": "taskman-inspect",
+  "description": "What is currently plugged into Task Manager's extension points, and whether anything was refused. Use when one of its panes renders empty.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "point": {
+        "type": "string",
+        "description": "taskman.item-action — Item action",
+        "enum": [
+          "taskman.item-action"
+        ]
+      }
+    },
+    "required": []
+  }
+}

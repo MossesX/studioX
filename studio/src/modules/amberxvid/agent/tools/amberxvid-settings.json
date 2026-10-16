@@ -1,0 +1,53 @@
+{
+  "name": "amberxvid-settings",
+  "description": "Read or write AmberX Vid's settings (namespace amberxvid-settings).",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "read",
+          "write"
+        ],
+        "description": "read every row, or write one."
+      },
+      "key": {
+        "type": "string",
+        "description": "ringAlerts — Ring out loud (switch); ringVolume — Ring volume (number); trayAlerts — Tray alerts (switch); followedLiveAlerts — Alert me when somebody I follow goes live (switch); defaultPostVisibility — Default post visibility (select); defaultAlbumVisibility — Default album visibility (select); whoMayCall — Who may call me (select); whoMayInvite — Who may invite me (select); cameraId — Camera (text); micId — Microphone (text); callResolution — Call resolution (select); uplinkCapKbps — Uplink cap (number); messengerEnterToSend — Enter sends the message (switch); autoplayPreviews — Autoplay stream previews (switch); viewerRecordFormat — Viewer recording format (select); recorderResolution — Recorder resolution (select); recorderQuality — Recorder quality (select); animationIntensity — Animation intensity (select); backgroundArmed — Arm background recording (switch)",
+        "enum": [
+          "ringAlerts",
+          "ringVolume",
+          "trayAlerts",
+          "followedLiveAlerts",
+          "defaultPostVisibility",
+          "defaultAlbumVisibility",
+          "whoMayCall",
+          "whoMayInvite",
+          "cameraId",
+          "micId",
+          "callResolution",
+          "uplinkCapKbps",
+          "messengerEnterToSend",
+          "autoplayPreviews",
+          "viewerRecordFormat",
+          "recorderResolution",
+          "recorderQuality",
+          "animationIntensity",
+          "backgroundArmed"
+        ]
+      },
+      "value": {
+        "description": "The new value when writing; matches the row's declared kind.",
+        "type": [
+          "boolean",
+          "number",
+          "string"
+        ]
+      }
+    },
+    "required": [
+      "action"
+    ]
+  }
+}

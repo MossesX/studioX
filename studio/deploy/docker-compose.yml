@@ -1,0 +1,237 @@
+# studio.amberxai.com
+#
+#   docker compose -f packages/studio/deploy/docker-compose.yml up -d --build
+#
+# run from the REPO ROOT — `build.context` is `../../..`, because the image needs
+# both packages and `assets/` (packages/studio/Dockerfile says why).
+#
+# ── the three layers, and why the middle one exists ─────────────────────────
+#
+# INITIATION-PROMPT §2: *"publishing no host port, reached only through Traefik
+# on the shared network behind basic auth plus the app's own login gate."*
+#
+#   1. no `ports:` — nothing is bound on the host, so the container is
+#      unreachable except through the shared network. This is not decoration:
+#      a published port is reachable by IP whatever the router in front says,
+#      and every hardening below would be bypassed by it.
+#   2. basic auth at Traefik — REMOVED 2026-08-16, and not for taste. It is
+#      INCOMPATIBLE with this app, which was proven rather than argued:
+#
+#      The browser sends the `Authorization` header on page NAVIGATIONS but
+#      not on the app's `fetch()` calls. So every `/api/*` request the app
+#      makes was answered by Traefik, not by the app, with a 401 whose body is
+#      the seven bytes `401 Unauthorized\n`. The accounts store does
+#      `await res.json()` on that (`store.ts` `login()`), and `JSON.parse`
+#      reads `401` as a number, skips the space and dies on the `U` — the
+#      user-visible symptom being `SyntaxError: Unexpected non-whitespace
+#      character after JSON at position 4`. Sign-in could therefore never
+#      succeed: no session was ever written and `/data/accounts/.auth-secret`
+#      was never created, which is how this was tracked down.
+#
+#      It is not only login. `store.ts` treats ANY 401 as session expiry and
+#      signs out, so even a session that somehow started would be torn down by
+#      the next fetch. A gate that makes the thing behind it unusable is not a
+#      layer of defence, it is an outage.
+#
+#      Restoring it means solving that first — every `/api/*` caller in the
+#      app sending credentials, not just the accounts store — so treat the two
+#      labels as removed TOGETHER WITH a problem, not as a loosened knob.
+#   3. the app's own login — accounts, roles and the policy cascade. NOW THE
+#      ONLY GATE, and a real one: scrypt hashes, a signed session cookie, and
+#      `proxy.ts` sending every signed-out navigation to the landing. But it
+#      is one layer where §2 wanted two, so `PUBLIC_PATHS` in
+#      `src/modules/accounts/lib/publicPaths.ts` is now the ENTIRE perimeter.
+#      That file's standing warning — that `/login-landing/*` is a PREFIX and
+#      a new child route inherits public reachability without anyone
+#      re-deciding it — is now load-bearing rather than cautionary.
+#
+# ── secrets ────────────────────────────────────────────────────────────────
+#
+# Nothing secret is written in this file. `.env` beside it supplies:
+#
+#   STUDIO_BASIC_AUTH   NO LONGER READ — basic auth was removed 2026-08-16 (see
+#                       layer 2 below). Left in `.env`/`.env.example` on purpose:
+#                       it costs nothing, and deleting it would turn any future
+#                       restoration into a credential-generation exercise again.
+#                       Two things worth keeping if it ever comes back — the host
+#                       has NO `htpasswd` binary (measured), so the line is made
+#                       with `docker run --rm httpd:alpine htpasswd -nbB <user>
+#                       '<pw>'`; and every `$` must be doubled to `$$` even when
+#                       the value arrives from `.env`, because the single form
+#                       truncates the bcrypt to 24 chars and then silently
+#                       rejects every password instead of failing loudly.
+#   TRAEFIK_NETWORK     the shared network Traefik already watches
+#   STUDIO_DATA_VOLUME  host path or named volume for the persisted directory
+#
+# `.env` is gitignored at the repo root and must stay that way.
+
+services:
+  studio:
+    container_name: amberx-studio
+    build:
+      context: ../../..
+      dockerfile: packages/studio/Dockerfile
+    restart: unless-stopped
+
+    # DELIBERATELY ABSENT: `ports:`. See layer 1 above.
+
+    environment:
+      # The one persisted directory (§2.2). The volume below mounts over it.
+      AXS_DATA_ROOT: /data
+      # The declared repo slices the Dockerfile copied in.
+      AXF_ASSETS_ROOT: /app/assets
+      # The bundle root. Without it the plugin engine resolves its roster
+      # against `/` and finds nothing — see the Dockerfile, where this is
+      # measured rather than asserted.
+      AXF_ROOT: /app/studio
+      NODE_ENV: production
+      PORT: "3200"
+      HOSTNAME: 0.0.0.0
+
+      # Where the signed-in `claude` CLI keeps its credential — INSIDE the
+      # persisted volume, so the sign-in survives a redeploy.
+      #
+      # This is the whole reason subscription mode can work in a container at
+      # all, and it was added 2026-10-01 after measuring that it did not:
+      # `npm root -g` in the running container held only `corepack` and `npm`
+      # (no CLI at all, the image predating the Dockerfile's install line), and
+      # the only credential in the environment was a 14-character
+      # `ANTHROPIC_API_KEY` — a placeholder, not an `sk-ant-api03-…` key. So
+      # every assistant turn on `authMode: "subscription"` spawned a binary
+      # that was not there.
+      #
+      # Default `$HOME/.claude` is NOT good enough here: the Dockerfile creates
+      # `/home/nextjs` deliberately ephemeral, so a login there is lost on the
+      # next `up -d` and the panel silently returns to "not connected". Under
+      # `/data` it persists and the CLI refreshes it itself, which is the one
+      # property a token in `.env` never had. Same shape as `axp-xchat`, and
+      # for the same measured reason.
+      #
+      # `-cli`, AND NOT `/data/claude`, which xchat uses and which looks like
+      # the obvious choice here. It is already taken: `src/server/claudePaths.ts`
+      # defines `CLAUDE_CONVERSATIONS_ROOT = dataPath("claude","conversations")`
+      # and `CLAUDE_PROJECTS_ROOT = dataPath("claude","projects")`, and the
+      # production volume holds both (`claude/conversations/Brett`,
+      # `claude/projects/Brett`, there since 2026-08-13). The CLI keeps its own
+      # `projects/` — keyed by cwd slug, where the app's is keyed by username —
+      # plus `todos/` and its credential, so aiming it at `/data/claude` would
+      # interleave two unrelated layouts in one directory and make the app's
+      # own store indistinguishable from the CLI's. xchat can use the short
+      # name because xchat has no such store of its own.
+      CLAUDE_CONFIG_DIR: /data/claude-cli
+
+      # DELIBERATELY EMPTY by default, and the comment that used to sit here
+      # was WRONG. It claimed this is how `/claude` authenticates; it is not.
+      # `src/server/claudeBroker.ts` says the opposite in its own header —
+      # *"there is no `ANTHROPIC_API_KEY` in this path and nothing here will
+      # read one"* — and the assistant's api-key mode reads the key from kv
+      # (`providers.anthropic.apiKey`), never from the environment. Nothing in
+      # this app reads this variable.
+      #
+      # It still MATTERS, because the `claude` CLI reads it for itself and the
+      # broker spawns with `{ ...process.env }`. A non-empty value makes the
+      # CLI authenticate as an API account and SHADOWS the interactive sign-in
+      # above — which is exactly the trap `xchat-claude-auth` was rewritten to
+      # avoid, there with `CLAUDE_CODE_OAUTH_TOKEN`. An EMPTY value is treated
+      # as absent, so leaving it blank is what lets the persisted login win.
+      #
+      # Set it ONLY to run the CLI against an API account on purpose. Billing
+      # follows the credential: blank means the owner's Claude plan pays.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+
+    volumes:
+      # The ONE directory that survives a redeploy. Everything the app persists
+      # — accounts, kv settings, amberxvid vaults, expenses, conversations, the
+      # taskman archive — lands under here and nowhere else, which is the
+      # property `src/server/dataRoot.ts` exists to make true and
+      # `npm run check:runtime-files` exists to keep true.
+      - ${STUDIO_DATA_VOLUME:-amberx-studio-data}:/data
+
+    healthcheck:
+      # `/api/health` WRITES to the persisted root, so an unmounted or
+      # read-only volume shows up as unhealthy here rather than as data that
+      # quietly disappears at the next deploy. Node runs the request because
+      # the slim image has no curl and adding one for this would be a package
+      # on the attack surface for a line node already does.
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3200/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 5s
+      start_period: 40s
+      retries: 3
+
+    networks:
+      - traefik
+
+    # ── ROUTING, AND WHY IT CANNOT DISTURB GIZMOX ──────────────────────────
+    #
+    # amberxai.com is GizmoX and stays GizmoX. It is routed by Traefik's FILE
+    # provider — `/data/coolify/proxy/dynamic/amberxai.yaml`, rule
+    # Host(`amberxai.com`) || Host(`www.amberxai.com`), service
+    # gizmox-web-green:3000. Nothing here reads or writes that file.
+    #
+    # This app is routed by the DOCKER provider instead: a different mechanism
+    # reading a different source, so the two cannot collide even by accident.
+    # The host's proxy runs `--providers.docker=true
+    # --providers.docker.exposedbydefault=false`, which is why `traefik.enable`
+    # below is the opt-in and why no other container is affected by adding one.
+    #
+    # Router names, middleware names, container name, image and volume are all
+    # `amberx-studio*`; GizmoX's are `amberxai-*` / `gizmox-web*`. The rule
+    # matches ONE host and it is not one of GizmoX's.
+    #
+    # Verified on the host 2026-08-16: entrypoints are `http` and `https` (NOT
+    # the upstream defaults `web`/`websecure` — a router on a non-existent
+    # entrypoint is silently never served), cert resolver is `letsencrypt`, and
+    # the shared network is `coolify`.
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: ${TRAEFIK_NETWORK:-coolify}
+
+      traefik.http.routers.amberx-studio.rule: Host(`studio.amberxai.com`)
+      traefik.http.routers.amberx-studio.entrypoints: https
+      traefik.http.routers.amberx-studio.tls: "true"
+      traefik.http.routers.amberx-studio.tls.certresolver: letsencrypt
+      # No `middlewares:` here — see layer 2 above. The basic-auth middleware
+      # was removed outright rather than left defined-but-detached, because a
+      # middleware sitting there unattached reads like an oversight and the
+      # next person reattaches it and re-breaks every fetch in the app.
+
+      # Plain HTTP redirects up, the same shape GizmoX's file config uses. The
+      # `http` entrypoint must also stay reachable for the ACME HTTP challenge,
+      # which is how the certificate is issued in the first place.
+      traefik.http.routers.amberx-studio-http.rule: Host(`studio.amberxai.com`)
+      traefik.http.routers.amberx-studio-http.entrypoints: http
+      traefik.http.routers.amberx-studio-http.middlewares: amberx-studio-https@docker
+      traefik.http.middlewares.amberx-studio-https.redirectscheme.scheme: https
+      traefik.http.middlewares.amberx-studio-https.redirectscheme.permanent: "true"
+
+      # The app listens on 3200 inside the container. Stated explicitly because
+      # Traefik's guess is only right when exactly one port is exposed, and
+      # "only one today" is not a property worth depending on.
+      traefik.http.services.amberx-studio.loadbalancer.server.port: "3200"
+
+networks:
+  traefik:
+    external: true
+    # Coolify's shared proxy network — the one `coolify-proxy` and
+    # `gizmox-web-green` are already on. Joining it is what makes this
+    # container reachable BY the proxy; it grants nothing over GizmoX.
+    name: ${TRAEFIK_NETWORK:-coolify}
+
+volumes:
+  amberx-studio-data:
+    # `name:` is load-bearing, exactly as it is for the network above. Without
+    # it Compose namespaces a declared volume with the PROJECT name, and the
+    # project name here is the compose file's parent directory — `deploy`. So
+    # the mount resolved to `deploy_amberx-studio-data`, a new empty volume,
+    # while the seeded `amberx-studio-data` sat beside it untouched. The
+    # container came up HEALTHY on the empty one, because `/api/health` only
+    # proves the root is writable, not that it is the right root. Measured on
+    # the host 2026-08-16, on the first real `compose up`.
+    name: amberx-studio-data

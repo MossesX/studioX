@@ -1,0 +1,36 @@
+{
+  "name": "amberart-settings",
+  "description": "Read or write AmberArt's settings (namespace amberart-settings).",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "action": {
+        "type": "string",
+        "enum": [
+          "read",
+          "write"
+        ],
+        "description": "read every row, or write one."
+      },
+      "key": {
+        "type": "string",
+        "description": "undoDepth — Undo history depth (number); checkerboard — Checkerboard transparency (switch)",
+        "enum": [
+          "undoDepth",
+          "checkerboard"
+        ]
+      },
+      "value": {
+        "description": "The new value when writing; matches the row's declared kind.",
+        "type": [
+          "boolean",
+          "number",
+          "string"
+        ]
+      }
+    },
+    "required": [
+      "action"
+    ]
+  }
+}

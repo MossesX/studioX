@@ -1,0 +1,31 @@
+{
+  "name": "amberart-run",
+  "description": "Run one of AmberArt's declared operations. Destructive rows are marked in the description — confirm with the user before running one.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "command": {
+        "type": "string",
+        "description": "amberart.undo — Undo; amberart.redo — Redo; amberart.export — Export as PNG; amberart.layer.clear — Clear the active layer (destructive); amberart.layer.add — Add a layer; amberart.layer.toggle — Show / hide this layer; amberart.layer.raise — Bring forward; amberart.layer.lower — Send back; amberart.layer.clear — Clear this layer (destructive); amberart.layer.remove — Delete this layer (destructive); amberart.layer.add — Add a layer; amberart.export — Export as PNG",
+        "enum": [
+          "amberart.undo",
+          "amberart.redo",
+          "amberart.export",
+          "amberart.layer.clear",
+          "amberart.layer.add",
+          "amberart.layer.toggle",
+          "amberart.layer.raise",
+          "amberart.layer.lower",
+          "amberart.layer.remove"
+        ]
+      },
+      "data": {
+        "type": "object",
+        "description": "Context the row would have carried — the item, list or selection the command acts on."
+      }
+    },
+    "required": [
+      "command"
+    ]
+  }
+}

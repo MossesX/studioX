@@ -1,0 +1,10 @@
+{
+  "id": "amberart-drawing-lab",
+  "kind": "plugin",
+  "name": "Drawing Lab",
+  "version": "0.1.0",
+  "layer": "sdk",
+  "target": "module:amberart",
+  "entry": "plugin.ts",
+  "summary": "An interlocking-tile generator (Poisson-sampled pieces, lobed shared edges, contour insetting) driven by ten sliders, three colours, a fill mode and a page preset, with a live preview and one-click placement."
+}

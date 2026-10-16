@@ -1,0 +1,84 @@
+{
+  "id": "lk001",
+  "name": "X Throb",
+  "version": "0.1.0",
+  "type": "logo_kit",
+  "description": "Ten animated treatments of the X mark — orbit, pulse, spin, rock, breathe, bob, heartbeat, coin-flip, glow throb and wobble.",
+  "author": "AmberX",
+  "authored_by": "framework",
+  "signature": "sha256:2df78379542310c79c607bf5067364152e6f959ec03c2022f1292559fb479730",
+  "logos": [
+    {
+      "id": "lk001-orbit",
+      "slug": "orbit",
+      "name": "Orbit",
+      "kind": "animated",
+      "motion": "orbit",
+      "note": "Brand asset's Glitch variant — pieces orbit."
+    },
+    {
+      "id": "lk001-pulse",
+      "slug": "pulse",
+      "name": "Pulse",
+      "kind": "animated",
+      "motion": "pulse",
+      "note": "Brand asset's Snap variant — self-builds and pulses."
+    },
+    {
+      "id": "lk001-spin",
+      "slug": "spin",
+      "name": "Spin",
+      "kind": "animated",
+      "motion": "spin"
+    },
+    {
+      "id": "lk001-rock",
+      "slug": "rock",
+      "name": "Rock",
+      "kind": "animated",
+      "motion": "rock"
+    },
+    {
+      "id": "lk001-breathe",
+      "slug": "breathe",
+      "name": "Breathe",
+      "kind": "animated",
+      "motion": "breathe"
+    },
+    {
+      "id": "lk001-bob",
+      "slug": "bob",
+      "name": "Bob",
+      "kind": "animated",
+      "motion": "bob"
+    },
+    {
+      "id": "lk001-heartbeat",
+      "slug": "heartbeat",
+      "name": "Heartbeat",
+      "kind": "animated",
+      "motion": "heartbeat"
+    },
+    {
+      "id": "lk001-flip",
+      "slug": "flip",
+      "name": "Coin flip",
+      "kind": "animated",
+      "motion": "flip"
+    },
+    {
+      "id": "lk001-glow",
+      "slug": "glow",
+      "name": "Glow throb",
+      "kind": "animated",
+      "motion": "glow"
+    },
+    {
+      "id": "lk001-wobble",
+      "slug": "wobble",
+      "name": "Wobble",
+      "kind": "animated",
+      "motion": "wobble"
+    }
+  ]
+}

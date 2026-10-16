@@ -1,0 +1,23 @@
+{
+  "name": "demo-run",
+  "description": "Run one of Core Inspector's declared operations. Destructive rows are marked in the description — confirm with the user before running one.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "command": {
+        "type": "string",
+        "description": "ctx.copy — Copy from inspector",
+        "enum": [
+          "ctx.copy"
+        ]
+      },
+      "data": {
+        "type": "object",
+        "description": "Context the row would have carried — the item, list or selection the command acts on."
+      }
+    },
+    "required": [
+      "command"
+    ]
+  }
+}

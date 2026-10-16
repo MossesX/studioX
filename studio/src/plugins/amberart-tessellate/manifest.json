@@ -1,0 +1,10 @@
+{
+  "id": "amberart-tessellate",
+  "kind": "plugin",
+  "name": "Tessellate",
+  "version": "0.1.0",
+  "layer": "sdk",
+  "target": "module:amberart",
+  "entry": "plugin.ts",
+  "summary": "Interlocking Voronoi pieces where every boundary is one shared curve, forward for one piece and reversed for the other \u2014 so the tessellation has no overlaps or gaps by construction. Nine live dials, seeded and deterministic."
+}

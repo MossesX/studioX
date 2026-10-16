@@ -1,0 +1,60 @@
+{
+  "name": "amberxvid-run",
+  "description": "Run one of AmberX Vid's declared operations. Destructive rows are marked in the description — confirm with the user before running one.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "command": {
+        "type": "string",
+        "description": "amberxvid.member.profile — View profile; amberxvid.member.message — Message; amberxvid.member.call — Video call; amberxvid.member.invite — Invite to my room; amberxvid.member.add-buddy — Add buddy; amberxvid.member.block — Block (destructive); amberxvid.message.reply — Reply; amberxvid.message.copy — Copy text; amberxvid.post.react — Like / unlike; amberxvid.post.comment — Comment…; amberxvid.post.copy-link — Copy post text; amberxvid.post.edit — Edit post; amberxvid.post.delete — Delete post (destructive); amberxvid.post.report — Report to moderators; amberxvid.photo.open — Open; amberxvid.photo.share — Share to a message; amberxvid.photo.caption — Caption…; amberxvid.photo.set-cover — Set as album cover; amberxvid.photo.delete — Delete photo (destructive); amberxvid.stream.join — Join stream; amberxvid.stream.follow — Follow the host; amberxvid.stream.copy-link — Copy invite link; amberxvid.stream.record — Record this broadcast; amberxvid.stream.end — End stream (destructive); amberxvid.room.join — Join room; amberxvid.room.remove — Remove from room (destructive); amberxvid.history.call-back — Call back; amberxvid.history.thread — Open the conversation; amberxvid.history.recording — Open the recording; amberxvid.recording.play — Play; amberxvid.recording.show-in-profile — Show on my profile; amberxvid.recording.rename — Rename…; amberxvid.recording.delete — Delete recording (destructive); amberxvid.surface.new-room — New group room…; amberxvid.surface.go-live — Go live…; amberxvid.surface.new-post — New wall post…; amberxvid.surface.settings — Camera & microphone…; ctx.copy — Copy from AmberX Vid",
+        "enum": [
+          "amberxvid.member.profile",
+          "amberxvid.member.message",
+          "amberxvid.member.call",
+          "amberxvid.member.invite",
+          "amberxvid.member.add-buddy",
+          "amberxvid.member.block",
+          "amberxvid.message.reply",
+          "amberxvid.message.copy",
+          "amberxvid.post.react",
+          "amberxvid.post.comment",
+          "amberxvid.post.copy-link",
+          "amberxvid.post.edit",
+          "amberxvid.post.delete",
+          "amberxvid.post.report",
+          "amberxvid.photo.open",
+          "amberxvid.photo.share",
+          "amberxvid.photo.caption",
+          "amberxvid.photo.set-cover",
+          "amberxvid.photo.delete",
+          "amberxvid.stream.join",
+          "amberxvid.stream.follow",
+          "amberxvid.stream.copy-link",
+          "amberxvid.stream.record",
+          "amberxvid.stream.end",
+          "amberxvid.room.join",
+          "amberxvid.room.remove",
+          "amberxvid.history.call-back",
+          "amberxvid.history.thread",
+          "amberxvid.history.recording",
+          "amberxvid.recording.play",
+          "amberxvid.recording.show-in-profile",
+          "amberxvid.recording.rename",
+          "amberxvid.recording.delete",
+          "amberxvid.surface.new-room",
+          "amberxvid.surface.go-live",
+          "amberxvid.surface.new-post",
+          "amberxvid.surface.settings",
+          "ctx.copy"
+        ]
+      },
+      "data": {
+        "type": "object",
+        "description": "Context the row would have carried — the item, list or selection the command acts on."
+      }
+    },
+    "required": [
+      "command"
+    ]
+  }
+}

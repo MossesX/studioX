@@ -1,0 +1,10 @@
+{
+  "id": "demo-badge",
+  "kind": "plugin",
+  "name": "Demo Badge",
+  "version": "0.1.0",
+  "layer": "sdk",
+  "target": "module:demo",
+  "entry": "plugin.ts",
+  "summary": "The reference plugin: contributes a badge and a note to the demo module's declared points (demo.badge, demo.note). Packaged by `npm run pack demo-badge`; carried by the peel and the suite through the same declaration this manifest describes."
+}

@@ -1,0 +1,9 @@
+{
+  "name": "buildmgr-open",
+  "description": "Open Build Manager (/buildmgr). Use to put the module on screen before walking the user through it.",
+  "input_schema": {
+    "type": "object",
+    "properties": {},
+    "required": []
+  }
+}

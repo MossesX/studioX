@@ -1,0 +1,24 @@
+{
+  "name": "amberxvid-inspect",
+  "description": "What is currently plugged into AmberX Vid's extension points, and whether anything was refused. Use when one of its panes renders empty.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "point": {
+        "type": "string",
+        "description": "amberxvid.credits-meter — AmberX Vid credit meter; amberxvid.profile-rail — Profile shelf; amberxvid.wall-composer-action — Wall composer action; amberxvid.messenger-action — Message action; amberxvid.stream-tool — Stream room control; amberxvid.room-tile-badge — Room tile badge; amberxvid.settings-section — Settings section; amberxvid.admin-tool — Moderation tool",
+        "enum": [
+          "amberxvid.credits-meter",
+          "amberxvid.profile-rail",
+          "amberxvid.wall-composer-action",
+          "amberxvid.messenger-action",
+          "amberxvid.stream-tool",
+          "amberxvid.room-tile-badge",
+          "amberxvid.settings-section",
+          "amberxvid.admin-tool"
+        ]
+      }
+    },
+    "required": []
+  }
+}

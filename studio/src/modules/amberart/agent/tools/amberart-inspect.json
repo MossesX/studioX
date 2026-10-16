@@ -1,0 +1,17 @@
+{
+  "name": "amberart-inspect",
+  "description": "What is currently plugged into AmberArt's extension points, and whether anything was refused. Use when one of its panes renders empty.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "point": {
+        "type": "string",
+        "description": "amberart.tool — AmberArt tool",
+        "enum": [
+          "amberart.tool"
+        ]
+      }
+    },
+    "required": []
+  }
+}

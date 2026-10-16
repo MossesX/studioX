@@ -1,0 +1,18 @@
+{
+  "name": "claude-workspace-inspect",
+  "description": "What is currently plugged into Claude's extension points, and whether anything was refused. Use when one of its panes renders empty.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "point": {
+        "type": "string",
+        "description": "claude-workspace.panel — Workspace panel; claude-workspace.composer-action — Composer action",
+        "enum": [
+          "claude-workspace.panel",
+          "claude-workspace.composer-action"
+        ]
+      }
+    },
+    "required": []
+  }
+}
