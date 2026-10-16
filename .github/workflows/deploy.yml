@@ -1,7 +1,8 @@
 name: Deploy to VPS
 
-# Every push to main (from Claude or anyone) redeploys studio.amberxai.com and
-# expenses.amberxai.com. The build runs ON the VPS: this job only opens an SSH
+# Every push to main (from Claude or anyone) redeploys studio.amberxai.com.
+# (expenses.amberxai.com deploys from the MossesX/Expense repo, not from here.)
+# The build runs ON the VPS: this job only opens an SSH
 # session with a key that is restricted (authorized_keys forced command) to
 # `ping` and `deploy <name>`; the server-side script is ~/hub/deploy/studiox.sh.
 #
@@ -35,9 +36,7 @@ jobs:
           ssh -i ~/.ssh/deploy_key -o BatchMode=yes root@"$VPS_HOST" ping
       - name: Deploy on the VPS
         run: ssh -i ~/.ssh/deploy_key -o BatchMode=yes -o ServerAliveInterval=30 root@"$VPS_HOST" deploy studiox
-      - name: Verify the sites answer
+      - name: Verify the site answers
         run: |
-          for h in studio.amberxai.com expenses.amberxai.com; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://$h/login" || true)
-            echo "https://$h/login -> $code"; [ "$code" = 200 ] || exit 1
-          done
+          code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://studio.amberxai.com/login || true)
+          echo "https://studio.amberxai.com/login -> $code"; [ "$code" = 200 ] || exit 1
